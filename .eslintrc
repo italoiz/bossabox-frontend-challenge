@@ -5,7 +5,7 @@
     "es6": true,
     "jest": true
   },
-  "extends": ["airbnb"],
+  "extends": ["airbnb", "plugin:prettier/recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -17,8 +17,9 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "jsx-a11y", "import", "jest"],
+  "plugins": ["react", "jsx-a11y", "import", "jest", "prettier"],
   "rules": {
+    "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       "error",
       {
@@ -29,6 +30,7 @@
     "global-require": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
-    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }]
+    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
+    "semi": "off",
   }
 }

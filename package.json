@@ -5,8 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "husky": {
     "hooks": {
@@ -15,9 +14,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx},!src/__tests__/**/*.{js,jsx}": [
+    "src/**/!(*.test).{js,jsx}": [
       "eslint --fix",
-      "prettier --write",
       "git add"
     ],
     "src/__tests__/**/*.test.{js,jsx}": [
@@ -30,11 +28,14 @@
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
     "@testing-library/react": "^8.0.4",
+    "@types/jest": "^24.0.15",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jest": "^22.7.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
     "husky": "^3.0.0",
     "jest-dom": "^3.5.0",
@@ -48,9 +49,6 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "styled-components": "^4.3.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
