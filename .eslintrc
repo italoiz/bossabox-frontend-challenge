@@ -1,15 +1,15 @@
 {
-  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
     "jest": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -31,6 +31,6 @@
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
     "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
-    "semi": "off",
+    "semi": "off"
   }
 }

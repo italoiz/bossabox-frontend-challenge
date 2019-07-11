@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
+    "dev": "npm-run-all -p dev:*",
+    "dev:app": "react-scripts start",
+    "dev:storybook": "start-storybook -p 9009 -s public",
+    "test": "react-scripts test",
+    "build:app": "react-scripts build",
+    "build:storybook": "build-storybook -s public"
   },
   "husky": {
     "hooks": {
@@ -24,9 +27,24 @@
       "git add"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/!(*.stories).{js,jsx}"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
+    "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-centered": "^5.1.9",
+    "@storybook/addon-info": "^5.1.9",
+    "@storybook/addon-links": "^5.1.9",
+    "@storybook/addon-notes": "^5.1.9",
+    "@storybook/react": "^5.1.9",
     "@testing-library/react": "^8.0.4",
     "@types/jest": "^24.0.15",
     "eslint": "^5.16.0",
@@ -40,9 +58,13 @@
     "husky": "^3.0.0",
     "jest-dom": "^3.5.0",
     "lint-staged": "^9.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2"
   },
   "dependencies": {
+    "@material-ui/core": "^4.2.0",
+    "@material-ui/icons": "^4.2.1",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
