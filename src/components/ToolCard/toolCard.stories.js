@@ -24,4 +24,5 @@ storiesOf('Components | ToolCard', module)
       tool={{ ...tool, title: 'Tool Example' }}
       onRemove={action('onRemove')}
     />
-  ));
+  ))
+  .add('with mark text', () => <ToolCard tool={tool} markTextAt="organiz" />);

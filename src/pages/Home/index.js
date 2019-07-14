@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Icon } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -26,10 +26,15 @@ const tools = [
 ];
 
 export default function Home({ history }) {
+  const [query, setQuery] = useState(null);
+
   return (
     <>
       <ActionBarContainer>
-        <SearchBar checkboxLabel="procurar por tags" />
+        <SearchBar
+          checkboxLabel="procurar por tags"
+          onSubmit={({ query: _q }) => setQuery(_q)}
+        />
 
         <Button
           size="small"
@@ -43,7 +48,7 @@ export default function Home({ history }) {
 
       <Tools>
         {tools.map(tool => (
-          <ToolCard key={String(tool.id)} tool={tool} />
+          <ToolCard key={String(tool.id)} tool={tool} markTextAt={query} />
         ))}
       </Tools>
     </>
