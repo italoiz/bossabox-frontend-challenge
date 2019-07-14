@@ -1,4 +1,11 @@
 import styled from 'styled-components';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from '@material-ui/core';
 
 export const Container = styled.article`
   padding: 15px 10px;
@@ -67,3 +74,47 @@ export const RemoveButton = styled.button.attrs({
     margin-right: 3px;
   }
 `;
+
+export const AlertConfirm = styled(Dialog).attrs({
+  fullWidth: true,
+  scroll: 'body',
+  maxWidth: 'xs',
+})``;
+
+export const AlertTitle = styled(DialogTitle)`
+  > h6 {
+    display: flex;
+    align-items: center;
+
+    .MuiIcon-root {
+      margin-right: 10px;
+    }
+  }
+`;
+
+export const AlertContent = styled(DialogContent)`
+  display: flex;
+  flex-direction: column;
+
+  > .MuiFormControl-root {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+`;
+
+export const AlertFooter = styled(DialogActions)``;
+
+export const AlertCancelButton = styled(Button).attrs({
+  color: 'secondary',
+  size: 'small',
+  variant: 'text',
+})``;
+
+export const AlertConfirmButton = styled(Button).attrs({
+  color: 'primary',
+  size: 'small',
+  variant: 'text',
+})``;
