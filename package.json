@@ -9,8 +9,10 @@
     "dev:storybook": "start-storybook -p 9009 -s public",
     "dev:api": "json-server db.json --port 4000",
     "test": "react-scripts test --testMatch=**/__tests__/**/*.test.{js,jsx}",
+    "test:coverage": "yarn test && cat ./coverage/lcov.info | coveralls",
     "build:app": "react-scripts build",
-    "build:storybook": "build-storybook -s public"
+    "build:docs": "npm-run-all -p build:docs:*",
+    "build:docs:storybook": "build-storybook -c .storybook -o docs/reference"
   },
   "husky": {
     "hooks": {
@@ -43,6 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
+    "@commitlint/travis-cli": "^8.1.0",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-centered": "^5.1.9",
     "@storybook/addon-info": "^5.1.9",
@@ -52,6 +55,7 @@
     "@testing-library/react": "^8.0.4",
     "@types/jest": "^24.0.15",
     "axios-mock-adapter": "^1.17.0",
+    "coveralls": "^3.0.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-prettier": "^6.0.0",

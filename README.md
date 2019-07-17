@@ -10,6 +10,14 @@
 
 <div align="center">
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/italoiz/bossabox-frontend-challenge.svg)
+[![Build Status](https://travis-ci.org/italoiz/bossabox-frontend-challenge.svg?branch=master)](https://travis-ci.org/italoiz/bossabox-frontend-challenge)
+[![Coverage Status](https://coveralls.io/repos/github/italoiz/bossabox-frontend-challenge/badge.svg?branch=master)](https://coveralls.io/github/italoiz/bossabox-frontend-challenge?branch=master)
+
+</div>
+
+<div align="center">
+
 <img src="assets/screenshot.gif" align="center">
 
 </div>
