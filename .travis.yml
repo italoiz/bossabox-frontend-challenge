@@ -8,9 +8,6 @@ cache:
   directories:
     - node_modules
 
-addons:
-  ssh_known_hosts: $SSH_HOST
-
 install:
   - yarn
 
@@ -19,6 +16,7 @@ script:
   - yarn test:coverage
 
 before_deploy:
+  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H $SSH_HOST 2>&1 | tee -a $HOME/.ssh/known_hosts
   - openssl aes-256-cbc -K $encrypted_94b97748e151_key -iv $encrypted_94b97748e151_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/deploy_rsa
