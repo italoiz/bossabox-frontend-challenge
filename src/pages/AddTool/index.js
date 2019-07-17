@@ -1,35 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useModalGallery } from 'react-router-modal-gallery';
-import { Button, Icon } from '@material-ui/core';
+import { Button, Icon, Snackbar, IconButton } from '@material-ui/core';
 import { Form } from '@rocketseat/unform';
 import { TextField } from 'unform-material-ui';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
+import { addTool } from '../../store/modules/tools/actions';
+import { api } from '../../services';
 import { Container, Title, Footer, CancelButton, Content } from './styles';
 
 /** form validation */
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
+  title: Yup.string().required('O titulo é obrigatório'),
   link: Yup.string()
-    .url('Please enter a valid link')
-    .required('Link is required'),
+    .url('Por favor, entre com uma URL válida')
+    .required('Uma URL é obrigatória'),
   description: Yup.string()
     .min(10)
-    .required('Must be at least 10 characters'),
-  tags: Yup.string().required('Please enter at least one tag'),
+    .required('A descrição deve ter pelo menos 10 caracteres'),
+  tags: Yup.string().required('Por favor, digite pelo menos uma tag'),
 });
 
 export default function AddTool() {
+  const dispatch = useDispatch();
+  const [error, setError] = useState(null);
   const { isModal, redirectToBack } = useModalGallery();
 
   /** handle save */
-  function handleSave() {
+  async function handleSave({ tags, ...rest }) {
     try {
+      const tags2arr = String(tags)
+        .trim()
+        .split(' ');
+
+      const { data: tool } = await api.post('/tools', {
+        ...rest,
+        tags: tags2arr,
+      });
+
+      // add tool to list
+      dispatch(addTool(tool));
+
       // close modal.
       redirectToBack();
-    } catch (err) {
-      // error.
+    } catch ({ response: { data } }) {
+      let message = 'Desculpe, estamos com algum problema. Tente novamente!';
+
+      /* istanbul ignore next */
+      if (data.message) {
+        const { message: errorMessage } = data;
+        message = errorMessage;
+      }
+
+      setError(message);
     }
+  }
+
+  function handleResetError() {
+    setError(null);
   }
 
   return (
@@ -47,8 +77,8 @@ export default function AddTool() {
         <Content>
           <TextField
             name="title"
-            label="Tool name"
-            placeholder="Ex. Jest or React"
+            label="Titulo"
+            placeholder="Ex. Jest ou React"
             InputLabelProps={{
               shrink: true,
             }}
@@ -57,7 +87,7 @@ export default function AddTool() {
 
           <TextField
             name="link"
-            label="Tool link"
+            label="URL"
             placeholder="Ex. https://jestjs.io"
             InputLabelProps={{
               shrink: true,
@@ -67,8 +97,8 @@ export default function AddTool() {
 
           <TextField
             name="description"
-            label="Tool description"
-            placeholder="Is a best tool of my life."
+            label="Descrição"
+            placeholder="Uma ferramenta para gerenciar meu tempo."
             InputLabelProps={{
               shrink: true,
             }}
@@ -84,7 +114,7 @@ export default function AddTool() {
             InputLabelProps={{
               shrink: true,
             }}
-            helperText="Tags must be separated by a space"
+            helperText="Tags devem ser separadas por um espaço"
             fullWidth
           />
         </Content>
@@ -98,6 +128,28 @@ export default function AddTool() {
           </Button>
         </Footer>
       </Form>
+
+      <Snackbar
+        open={!!error}
+        message={error}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Fechar"
+            color="inherit"
+            onClick={handleResetError}
+            data-testid="snackbar-close"
+          >
+            <Icon>close</Icon>
+          </IconButton>,
+        ]}
+      />
     </Container>
   );
 }
+
+AddTool.propTypes = {
+  location: PropTypes.shape({
+    refreshTools: PropTypes.func,
+  }).isRequired,
+};

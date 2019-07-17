@@ -7,7 +7,9 @@
   "extends": ["airbnb", "prettier", "prettier/react"],
   "globals": {
     "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+    "SharedArrayBuffer": "readonly",
+    "mockApi": "readonly",
+    "mockStore": "readonly"
   },
   "parser": "babel-eslint",
   "parserOptions": {
