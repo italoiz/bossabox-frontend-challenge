@@ -10,6 +10,14 @@
 
 <div align="center">
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/italoiz/bossabox-frontend-challenge.svg)
+[![Build Status](https://travis-ci.org/italoiz/bossabox-frontend-challenge.svg?branch=master)](https://travis-ci.org/italoiz/bossabox-frontend-challenge)
+[![Coverage Status](https://coveralls.io/repos/github/italoiz/bossabox-frontend-challenge/badge.svg?branch=master)](https://coveralls.io/github/italoiz/bossabox-frontend-challenge?branch=master)
+
+</div>
+
+<div align="center">
+
 <img src="assets/screenshot.gif" align="center">
 
 </div>
@@ -26,6 +34,7 @@ Esta aplicação foi contruída utilizando **React** e técnicas como **TDD** e 
 
 - [Instalando](#instalando)
 - [BUGs 🐛](#bugs-)
+- [Versão Online 🌎](#versão-online-)
 - [Licença](#licença)
 
 ## Instanlando
@@ -57,6 +66,16 @@ $ yarn start
 
 Este script irá executar também a API modelo fornecida pela Bossabox. Veja a API
 [aqui](https://gitlab.com/bossabox/challenge-fake-api/tree/master).
+
+## Versão Online 🌎
+
+Há uma versão desta aplicação hospedada e rodando, porém a API na qual utiliza-se
+tem limitações. Nenhuma ferramenta inserida através do formulário de "Nova Ferramenta" ou
+excluida através do botão de remover ferramenta é persistida na "base de dados", estamos
+utilizando um recurso open source da [Typeicode](https://github.com/typicode) de servir
+um JSON como API Rest. Conheça [aqui](https://my-json-server.typicode.com/) o recurso.
+
+Você pode ver a aplicação através da seguinte URL: `http://vuttr-challenge.com/`
 
 ## BUGs 🐛
 
