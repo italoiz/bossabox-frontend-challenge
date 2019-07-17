@@ -62,9 +62,10 @@ Este script irá executar também a API modelo fornecida pela Bossabox. Veja a A
 ## Versão Online 🌎
 
 Há uma versão desta aplicação hospedada e rodando, porém a API na qual utiliza-se
-tem limitações. Nenhuma ferramenta inserida através do formulário de "Nova Ferramenta""
-é persistida na "base de dados", estamos utilizando um recurso open source da [Typeicode](https://github.com/typicode)
-de servir um JSON como API Rest. Conheça [aqui](https://my-json-server.typicode.com/) o recurso.
+tem limitações. Nenhuma ferramenta inserida através do formulário de "Nova Ferramenta" ou
+excluida através do botão de remover ferramenta é persistida na "base de dados", estamos
+utilizando um recurso open source da [Typeicode](https://github.com/typicode) de servir
+um JSON como API Rest. Conheça [aqui](https://my-json-server.typicode.com/) o recurso.
 
 Você pode ver a aplicação através da seguinte URL: `http://vuttr-challenge.com/`
 
