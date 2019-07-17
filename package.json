@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "npm-run-all -p dev:app dev:api",
     "dev": "npm-run-all -p dev:*",
     "dev:app": "react-scripts start",
     "dev:storybook": "start-storybook -p 9009 -s public",
