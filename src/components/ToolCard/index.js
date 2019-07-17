@@ -126,7 +126,7 @@ ToolCard.propTypes = {
   tool: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    link: PropTypes.string,
     description: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
