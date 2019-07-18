@@ -1,7 +1,9 @@
 #!/bin/bash
 
 echo "Copying files to remote server...";
-rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/build "$SSH_USER@$SSH_HOST":/app/frontend
+rsync -r --delete-after --quiet \
+  --exclude .git/ --exclude node_modules/ --exclude build/ \
+  $TRAVIS_BUILD_DIR/ "$SSH_USER@$SSH_HOST":/app/frontend
 
 echo "Entering the server..."
 ssh "$SSH_USER@$SSH_HOST" <<EOF
