@@ -13,7 +13,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # INSTALL PACKAGES AND COPY PROJECT FILES
-RUN yarn install
+RUN yarn install --silent
 COPY . .
 
 # CREATE PRODUCTION ENVIRONMENT VAR
