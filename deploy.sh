@@ -1,5 +1,12 @@
 #!/bin/bash
-set -e
+set -ev
+
+# Setup known hosts to avoid prompts
+echo $SSH_KEY >> $HOME/.ssh/known_hosts
+openssl aes-256-cbc -K $encrypted_94b97748e151_key -iv $encrypted_94b97748e151_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+eval "$(ssh-agent -s)"
+chmod 600 /tmp/deploy_rsa
+ssh-add /tmp/deploy_rsa
 
 # Copying files to remote server
 rsync -r --delete-after --quiet \
