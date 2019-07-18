@@ -17,6 +17,7 @@ rsync -r --delete-after --quiet \
 ssh "$SSH_USER@$SSH_HOST" <<EOF
   cd /app/frontend
   docker image build --tag vuttr-frontend:latest --no-cache .
-  docker container rm -f vuttr-frontend || true
+  if [[ $(docker images -qa -f 'dangling=true') ]]; then docker image rm $(docker images -qa -f 'dangling=true'); fi
+  if [[ $(docker container ps -qa -f 'name=vuttr-frontend' -f 'status=running') ]]; then docker container rm -f vuttr-frontend; fi
   docker container run --name vuttr-frontend -d -p 8080:80 vuttr-frontend:latest
 EOF
