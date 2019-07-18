@@ -3,6 +3,9 @@
 #################
 FROM node:10.16-alpine AS BUILD-APP
 
+# CREATE PRODUCTION ENVIRONMENT VAR
+ENV NODE_ENV=production
+
 # SETUP ENVIRONMENT FOLDER
 RUN mkdir -p /app
 
@@ -13,11 +16,8 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # INSTALL PACKAGES AND COPY PROJECT FILES
-RUN yarn install --silent
+RUN yarn install --silent --non-interactive
 COPY . .
-
-# CREATE PRODUCTION ENVIRONMENT VAR
-ENV NODE_ENV=production
 
 # BUILD APP
 RUN yarn build:app
