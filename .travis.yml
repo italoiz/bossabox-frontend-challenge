@@ -17,8 +17,8 @@ script:
 
 before_deploy:
   - if ! [[ $TRAVIS_DOCS ]]; then
-    export TRAVIS_DOCS="1.$TRAVIS_BUILD_NUMBER" &&
-    yarn build:docs;
+      export TRAVIS_DOCS="1.$TRAVIS_BUILD_NUMBER" &&
+      yarn build:docs;
     fi
 
 deploy:
