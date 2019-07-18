@@ -37,7 +37,7 @@ Esta aplicação foi contruída utilizando **React** e técnicas como **TDD** e 
 - [Versão Online 🌎](#versão-online-)
 - [Licença](#licença)
 
-## Instanlando
+## Instalando
 
 ### 1. Clone do projeto:
 
