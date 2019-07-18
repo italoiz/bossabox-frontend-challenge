@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 echo "Copying files to remote server...";
 rsync -r --delete-after --quiet \
@@ -13,7 +14,7 @@ ssh "$SSH_USER@$SSH_HOST" <<EOF
   echo "Removing old container..."
   docker container rm -f vuttr-frontend || true
   echo "Starting the new container image..."
-  docker container run --name vuttr-frontend --detach --publish 8080:80
+  docker container run --name vuttr-frontend --detach --publish 8080:80 vuttr-frontend:latest
 EOF
 
 echo "Deploy completed..."
