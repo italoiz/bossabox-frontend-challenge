@@ -24,7 +24,19 @@ steps:
 
   - id: 'Push Image to Container Registry'
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/vuttr-frontend']
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        _IMAGE_TAG_NAME=$(cat IMAGE_TAG_NAME)
+
+        if [[ $(docker images --filter 'reference=*vuttr-frontend:latest') ]]; then
+          docker push gcr.io/$PROJECT_ID/vuttr-frontend:latest
+        fi;
+
+        if [[ $(docker images --filter 'reference=*vuttr-frontend:$_IMAGE_TAG_NAME') ]]; then
+          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$_IMAGE_TAG_NAME
+        fi;
 
   - id: 'Deploy to Cloud Run'
     name: 'gcr.io/cloud-builders/gcloud'
