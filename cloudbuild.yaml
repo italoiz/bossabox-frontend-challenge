@@ -30,11 +30,11 @@ steps:
       - |
         _IMAGE_TAG_NAME=$(cat IMAGE_TAG_NAME)
 
-        if [[ $(docker images --filter 'reference=*vuttr-frontend:latest') ]]; then
+        if [[ $(docker images -q --filter 'reference=*vuttr-frontend:latest') ]]; then
           docker push gcr.io/$PROJECT_ID/vuttr-frontend:latest
         fi;
 
-        if [[ $(docker images --filter 'reference=*vuttr-frontend:$_IMAGE_TAG_NAME') ]]; then
+        if [[ $(docker images -q --filter 'reference=*vuttr-frontend:$_IMAGE_TAG_NAME') ]]; then
           docker push gcr.io/$PROJECT_ID/vuttr-frontend:$_IMAGE_TAG_NAME
         fi;
 
