@@ -1,0 +1,46 @@
+steps:
+  - id: 'Build Image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA', '.']
+
+  - id: 'Tagging Image'
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [[ "$BRANCH_NAME" == "develop" ]]; then
+          echo "Tagging \"staging\" image"
+          docker tag gcr.io/$PROJECT_ID/vuttr-challenge:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-challenge:staging
+          echo "staging" > IMAGE_TAG_NAME
+        fi;
+
+        if [[ "$TAG_NAME" != "" ]]; then
+          echo "Tagging image with $TAG_NAME"
+          docker tag gcr.io/$PROJECT_ID/vuttr-challenge:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-challenge:$TAG_NAME
+          echo "$TAG_NAME" > IMAGE_TAG_NAME
+        fi;
+
+  - id: 'Push Image to Container Registry'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/vuttr-challenge']
+
+  - id: 'Deploy to Cloud Run'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'beta',
+        'run',
+        'deploy',
+        '${_CLOUD_RUN_SERVICE_NAME}',
+        '--image',
+        'gcr.io/$PROJECT_ID/vuttr-challenge:$(cat IMAGE_TAG_NAME)',
+        '--platform',
+        'managed',
+        '--region',
+        '${_CLOUD_RUN_SERVICE_REGION}',
+        '--quiet',
+      ]
+
+images:
+  - gcr.io/$PROJECT_ID/vuttr-challenge
