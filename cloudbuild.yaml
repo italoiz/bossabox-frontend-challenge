@@ -34,6 +34,7 @@ steps:
         COUNT=0
 
         echo "Images with tag $$TAG will be uploaded"
+        docker images
 
         if [[ $(docker images -q --filter 'reference=vuttr-frontend:latest') ]]; then
           echo "Deploying \"latest\" image"
