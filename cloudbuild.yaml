@@ -12,15 +12,17 @@ steps:
         if [[ "$BRANCH_NAME" == "develop" ]]; then
           echo "Tagging \"staging\" image"
           docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:staging
-          echo "staging" > IMAGE_TAG_NAME
+          echo "staging" > _TAG
         fi;
 
         if [[ "$TAG_NAME" != "" ]]; then
           echo "Tagging image with $TAG_NAME"
           docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:latest
           docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:$TAG_NAME
-          echo "$TAG_NAME" > IMAGE_TAG_NAME
+          echo "$TAG_NAME" > _TAG
         fi;
+
+        echo "Created tag name: $(cat _TAG)"
 
   - id: 'Push Image to Container Registry'
     name: 'gcr.io/cloud-builders/docker'
@@ -28,14 +30,12 @@ steps:
     args:
       - '-c'
       - |
-        _IMAGE_TAG_NAME=$(cat IMAGE_TAG_NAME)
-
         if [[ $(docker images -q --filter 'reference=*vuttr-frontend:latest') ]]; then
           docker push gcr.io/$PROJECT_ID/vuttr-frontend:latest
         fi;
 
-        if [[ $(docker images -q --filter 'reference=*vuttr-frontend:$_IMAGE_TAG_NAME') ]]; then
-          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$_IMAGE_TAG_NAME
+        if [[ $(docker images -q --filter "reference=*vuttr-frontend:$(cat _TAG)") ]]; then
+          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$(cat _TAG)
         fi;
 
   - id: 'Deploy to Cloud Run'
@@ -47,7 +47,7 @@ steps:
         'deploy',
         '${_CLOUD_RUN_SERVICE_NAME}',
         '--image',
-        'gcr.io/$PROJECT_ID/vuttr-frontend:$(cat IMAGE_TAG_NAME)',
+        'gcr.io/$PROJECT_ID/vuttr-frontend:$(cat _TAG)',
         '--platform',
         'managed',
         '--region',
