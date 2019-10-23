@@ -11,14 +11,14 @@ steps:
       - |
         if [[ "$BRANCH_NAME" == "develop" ]]; then
           echo "Tagging \"staging\" image"
-          docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:staging
+          docker tag gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:staging
           echo "staging" > _TAG
         fi;
 
-        if [[ "$TAG_NAME" != "" ]]; then
+        if [[ "$TAG_NAME" ]]; then
           echo "Tagging image with $TAG_NAME"
-          docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:latest
-          docker gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:$TAG_NAME
+          docker tag gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:latest
+          docker tag gcr.io/$PROJECT_ID/vuttr-frontend:$COMMIT_SHA gcr.io/$PROJECT_ID/vuttr-frontend:$TAG_NAME
           echo "$TAG_NAME" > _TAG
         fi;
 
@@ -30,12 +30,24 @@ steps:
     args:
       - '-c'
       - |
+        TAG=$(cat _TAG)
+        COUNT=0
+
         if [[ $(docker images -q --filter 'reference=*vuttr-frontend:latest') ]]; then
+          echo "Deploying \"latest\" image"
           docker push gcr.io/$PROJECT_ID/vuttr-frontend:latest
+          COUNT=$$COUNT+1
         fi;
 
-        if [[ $(docker images -q --filter "reference=*vuttr-frontend:$(cat _TAG)") ]]; then
-          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$(cat _TAG)
+        if [[ $(docker images -q --filter "reference=*vuttr-frontend:$$TAG") ]]; then
+          echo "Deploying \"$$TAG\" image"
+          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$$TAG
+          COUNT=$$COUNT+1
+        fi;
+
+        if [[ $$COUNT == 0 ]]; then
+          echo "No images have been uploaded to the registry"
+          exit 1
         fi;
 
   - id: 'Deploy to Cloud Run'
