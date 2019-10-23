@@ -28,14 +28,14 @@ steps:
     args:
       - '-c'
       - |
-        IMAGE_TAG_NAME=$(cat IMAGE_TAG_NAME)
+        _IMAGE_TAG_NAME=$(cat IMAGE_TAG_NAME)
 
         if [[ $(docker images --filter 'reference=*vuttr-challenge:latest') ]]; then
           docker push gcr.io/$PROJECT_ID/vuttr-challenge
         fi;
 
-        if [[ $(docker images --filter 'reference=*vuttr-challenge:$IMAGE_TAG_NAME') ]]; then
-          docker push gcr.io/$PROJECT_ID/vuttr-challenge:$IMAGE_TAG_NAME
+        if [[ $(docker images --filter 'reference=*vuttr-challenge:$_IMAGE_TAG_NAME') ]]; then
+          docker push gcr.io/$PROJECT_ID/vuttr-challenge:$_IMAGE_TAG_NAME
         fi;
 
   - id: 'Deploy to Cloud Run'
