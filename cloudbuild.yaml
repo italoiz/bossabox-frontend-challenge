@@ -32,19 +32,20 @@ steps:
       - |
         TAG=$(cat _TAG)
         COUNT=0
+        IMAGE_NAME="gcr.io/$PROJECT_ID/vuttr-frontend"
 
         echo "Images with tag $$TAG will be uploaded"
         docker images
 
-        if [[ $(docker images -q --filter 'reference=vuttr-frontend:latest') ]]; then
+        if [[ $(docker images -q $$IMAGE_NAME:latest) ]]; then
           echo "Deploying \"latest\" image"
-          docker push gcr.io/$PROJECT_ID/vuttr-frontend:latest
+          docker push $$IMAGE_NAME:latest
           COUNT=$$COUNT+1
         fi;
 
-        if [[ $(docker images -q --filter "reference=vuttr-frontend:$$TAG") ]]; then
+        if [[ $(docker images -q $$IMAGE_NAME:$$TAG) ]]; then
           echo "Deploying \"$$TAG\" image"
-          docker push gcr.io/$PROJECT_ID/vuttr-frontend:$$TAG
+          docker push $$IMAGE_NAME:$$TAG
           COUNT=$$COUNT+1
         fi;
 
